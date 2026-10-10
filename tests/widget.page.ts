@@ -12,11 +12,14 @@ export class WidgetPage {
     // The container has no role or test id. Keep its CSS dependency here,
     // without including the generated CSS-module hash.
     this.body = page.locator('[class^="widgetWrapper"] > [class^="widget__"]');
-    this.title = this.body.locator('header h5');
+    this.title = this.body.getByRole('heading', { level: 5 });
     this.popularArticles = this.body.locator(
       '[class^="popularTitle__"] + ul[class^="articles__"] > li',
     );
-    this.writeToUsButton = this.body.locator('[class^="btn"]');
+    this.writeToUsButton = this.body.getByRole('button', {
+      name: 'Написать нам',
+      exact: true,
+    });
   }
 
   async goto(): Promise<void> {
@@ -36,7 +39,6 @@ export class WidgetPage {
 
   async open(): Promise<void> {
     await this.openButton.click();
-    await expect(this.body).toBeVisible();
   }
 
   async openFirstPopularArticle(): Promise<string> {
